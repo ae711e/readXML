@@ -26,9 +26,10 @@ import java.util.Iterator;
 
 public class Ichannel {
 
-  private LocalDate date; // дата измерений
-  private String  code;   // атрибут "код канала"
-  private String  desc;   // атрибут "описание"
+  private int       count = 0;  // кол-во записанных получасовок
+  private LocalDate date;       // дата измерений
+  private String    code;   // атрибут "код канала"
+  private String    desc;   // атрибут "описание"
   private double[]  periods = new double[48];  // периоды
 
   public Ichannel()
@@ -63,6 +64,10 @@ public class Ichannel {
 
   public void setPeriods(double[] periods) {
     this.periods = periods;
+  }
+
+  public int getCount() {
+    return count;
   }
 
   private static final String
@@ -164,6 +169,7 @@ public class Ichannel {
     for(int i = i1; i < i2; i++) {
       this.periods[i] = val;
     }
+    this.count++;   // кол-во записанных получасовок
   }
 
   /**
