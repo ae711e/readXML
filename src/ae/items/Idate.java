@@ -112,7 +112,6 @@ public class Idate {
     } catch (Exception e) {
       System.out.println("?-error-ошибка при определении даты в файле: " + fileName + ". " + e.getMessage());
     }
-
   }
 
   /**

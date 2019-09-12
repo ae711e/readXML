@@ -93,7 +93,7 @@ public class Ipoint {
           // If we have an item element, we create a new item
           // нашли канал учёта, проверим начался ли канал
           if (startElement.getName().getLocalPart().equals(SUBITEM)) {
-            Ichannel ichannel = new Ichannel(this.date);
+            Ichannel ichannel = new Ichannel();
             ichannel.read(eventReader, startElement);
             ichannels.add(ichannel);    // запомним канал учета
           }
@@ -112,4 +112,21 @@ public class Ipoint {
     }
   }
 
+  /**
+   * Выдать измерения точки учета в виде строк для SQL
+   * code1,count,h1,h2,...h48
+   * code2,count,h1,h2,...h48
+   * @return строка
+   */
+  public String toStr(String prefix,String postfix)
+  {
+    StringBuilder strbuf = new StringBuilder();
+    String spref = prefix + "'" + getCode() + "',";
+    int Np = this.ichannels.size();
+    for (Ichannel ich: this.ichannels) {
+      String s = ich.toStr(spref, postfix);
+      strbuf.append(s);
+    }
+    return strbuf.toString();
+  }
 } // end of class

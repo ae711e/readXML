@@ -21,15 +21,15 @@
         <period start="0030" end="0100">
           <value>01</value>
         </period>
-        <period start="0100" end="0130">
+        <period1 start="0100" end="0130">
           <value>02</value>
-        </period>
+        </period1>
         <period start="0130" end="0200">
           <value>03</value>
         </period>
-        <period start="0200" end="0230">
+        <period1 start="0200" end="0230">
           <value>04</value>
-        </period>
+        </period1>
         <period start="0230" end="0300">
           <value>05</value>
         </period>

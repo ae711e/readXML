@@ -41,6 +41,8 @@ public class o80020 {
       // read the XML document
 
       int cnt = 0;
+      String prefix  = "('"+id.getDate("yyyy-MM-dd")+"',";
+      String postfix = ");\r\n";
       while (eventReader.hasNext()) {
         XMLEvent event = eventReader.nextEvent();
         if (event.isStartElement()) {
@@ -52,6 +54,9 @@ public class o80020 {
             ipoints.add(ipoint);
             cnt++;
             System.out.println(cnt + ") прочитали точку учета: " + ipoint.getCode() + " " + ipoint.getName());
+            String s;
+            s = ipoint.toStr(prefix, postfix);
+            System.out.println(s);
           }
         }
       }

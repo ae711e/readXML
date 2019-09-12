@@ -27,20 +27,9 @@ import java.util.Iterator;
 public class Ichannel {
 
   private int       count = 0;  // кол-во записанных получасовок
-  private LocalDate date;       // дата измерений
   private String    code;   // атрибут "код канала"
   private String    desc;   // атрибут "описание"
-  private double[]  periods = new double[48];  // периоды
-
-  public Ichannel()
-  {
-    date = LocalDate.now();
-  }
-
-  public Ichannel(LocalDate dat)
-  {
-    date = dat;
-  }
+  private Double[]  periods = new Double[48];  // периоды
 
   public String getCode() {
     return code;
@@ -58,15 +47,22 @@ public class Ichannel {
     this.desc = desc;
   }
 
-  public double[] getPeriods() {
+  public Double[] getPeriods() {
     return periods;
   }
 
-  public void setPeriods(double[] periods) {
+  public void setPeriods(Double[] periods) {
     this.periods = periods;
+    this.count = 0;
   }
 
   public int getCount() {
+    if(this.count == 0) {
+      for (Double d : periods) {
+        if (d != null)
+          this.count++;
+      }
+    }
     return count;
   }
 
@@ -160,7 +156,7 @@ public class Ichannel {
    * @param end   конец времени (не включая)
    * @param value значение
    */
-  public void setPeriod(String start, String end, String value) {
+  private void setPeriod(String start, String end, String value) {
 
     int i1 = indexOfTime(start);  // начало
     int i2 = indexOfTime(end);    // конец (не включая)
@@ -169,7 +165,7 @@ public class Ichannel {
     for(int i = i1; i < i2; i++) {
       this.periods[i] = val;
     }
-    this.count++;   // кол-во записанных получасовок
+    this.count = 0;   // сбросим кол-во записанных получасовок, их потом пресчитаем
   }
 
   /**
@@ -195,4 +191,25 @@ public class Ichannel {
     return idx;
   }
 
-}
+  /**
+   * Выдать измерения канала учета в виде строки для SQL
+   * code,count,h1,h2,...h48
+   * @return строка
+   */
+  public String toStr(String prefix,String postfix)
+  {
+    StringBuilder strbuf = new StringBuilder();
+    strbuf.append(prefix);  // префикс
+    strbuf.append("'").append(getCode()).append("',");
+    strbuf.append(getCount());  //кол-во измерений
+    int Np = this.periods.length;
+    for(int i = 0; i < Np; i++) {
+      strbuf.append(",");
+      if(periods[i] != null)
+        strbuf.append(periods[i]);
+    }
+    strbuf.append(postfix);
+    return strbuf.toString();
+  }
+
+}  // end of class
