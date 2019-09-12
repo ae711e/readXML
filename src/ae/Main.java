@@ -8,6 +8,7 @@ package ae;
    чтение XML файла с измерениями
  */
 
+
 import java.util.List;
 
 public class Main {
@@ -20,6 +21,12 @@ public class Main {
       for (Item item : readConfig) {
           System.out.println(item);
       }
-              System.out.println("Hello:");
+      System.out.println("Hello:");
+
+      //
+      o80020 o = new o80020();
+      o.start("80020.xml");
+
+
    }
 }
