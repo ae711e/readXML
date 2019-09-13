@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class o80020 {
 
-  ArrayList<Ipoint> ipoints = new ArrayList<>();
+  private ArrayList<Ipoint> ipoints = new ArrayList<>();
 
   private static final String
       ITEM      = "measuringpoint";
@@ -34,7 +34,6 @@ public class o80020 {
     System.out.println("Прочитали дату: " + id.getDate());
     //
     Database db = new DatabaseAccess(dbName);
-
     //
     try {
 
