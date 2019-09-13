@@ -121,7 +121,7 @@ public class Ipoint {
   public String toStr(String prefix,String postfix)
   {
     StringBuilder strbuf = new StringBuilder();
-    String spref = prefix + "'" + getCode() + "',";
+    String spref = prefix + "'" + getCode() + "_";
     int Np = this.ichannels.size();
     for (Ichannel ich: this.ichannels) {
       String s = ich.toStr(spref, postfix);

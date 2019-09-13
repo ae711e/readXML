@@ -21,7 +21,6 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.time.LocalDate;
 import java.util.Iterator;
 
 public class Ichannel {
@@ -200,13 +199,15 @@ public class Ichannel {
   {
     StringBuilder strbuf = new StringBuilder();
     strbuf.append(prefix);  // префикс
-    strbuf.append("'").append(getCode()).append("',");
+    strbuf.append(getCode()).append("', ");
     strbuf.append(getCount());  //кол-во измерений
     int Np = this.periods.length;
     for(int i = 0; i < Np; i++) {
       strbuf.append(",");
       if(periods[i] != null)
         strbuf.append(periods[i]);
+      else
+        strbuf.append("NULL");
     }
     strbuf.append(postfix);
     return strbuf.toString();
