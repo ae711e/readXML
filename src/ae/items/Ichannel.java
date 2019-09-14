@@ -55,23 +55,30 @@ public class Ichannel {
     this.count = 0;
   }
 
-  public int getCount() {
+  /**
+   * Подсчитать кол-во получасовок в канале измерения
+   * @return  кол-во измерений
+   */
+  public int getCount()
+  {
     if(this.count == 0) {
+      int c = 0;
       for (Double d : periods) {
         if (d != null)
-          this.count++;
+          c++;
       }
+      this.count = c;
     }
     return count;
   }
 
   private static final String
-      SUBITEM   = "period",
-      SUBVALUE  = "value",
-      ATTR_1 = "code",
-      ATTR_2 = "desc",
-      ATTR_S = "start",
-      ATTR_E = "end";
+      SUBITEM    = "period",
+      SUBVALUE   = "value",
+      ATTR_CODE  = "code",
+      ATTR_DESC  = "desc",
+      ATTR_START = "start",
+      ATTR_END   = "end";
 
   /**
    * Читаем канал учета, открытого в вышестоящей точке учета
@@ -89,18 +96,18 @@ public class Ichannel {
       Iterator<Attribute> attributesTag = startElementTag.getAttributes();
       while (attributesTag.hasNext()) {
         Attribute attribute = attributesTag.next();
-        if (attribute.getName().toString().equals(ATTR_1)) {
+        if (attribute.getName().toString().equals(ATTR_CODE)) {
           this.code = attribute.getValue();
         }
-        if (attribute.getName().toString().equals(ATTR_2)) {
+        if (attribute.getName().toString().equals(ATTR_DESC)) {
           this.desc = attribute.getValue();
         }
       }
       //
-      boolean bitem  = false;
-      String  pstart = "";
-      String  pend   = "";
-      String  pvalue = "";
+      boolean bitem  = false; // флаг "нашли тэг <period>"
+      String  pstart = "";    // время начала периода
+      String  pend   = "";    // время конца периода
+      String  pvalue = "";    // значение периода
       while (eventReader.hasNext()) {
         XMLEvent event = eventReader.nextEvent();
         if (event.isStartElement()) {
@@ -115,10 +122,10 @@ public class Ichannel {
             Iterator<Attribute> attributes = startElement.getAttributes();
             while (attributes.hasNext()) {
               Attribute attribute = attributes.next();
-              if (attribute.getName().toString().equals(ATTR_S)) {
+              if (attribute.getName().toString().equals(ATTR_START)) {
                 pstart = attribute.getValue();
               }
-              if (attribute.getName().toString().equals(ATTR_E)) {
+              if (attribute.getName().toString().equals(ATTR_END)) {
                 pend = attribute.getValue();
               }
             }
@@ -145,7 +152,7 @@ public class Ichannel {
       }
     } catch (Exception e) {
       System.out.println("?-error-ошибка чтения точки учета: " + e.getMessage());
-      e.printStackTrace();
+      // e.printStackTrace();
     }
   }
 

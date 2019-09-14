@@ -42,7 +42,6 @@ public class Ipoint {
     this.name = name;
   }
 
-  private LocalDate date; // дата измерений
   private String  code; // атрибут "код" т.и.
   private String  name; // атрибут имя т.и.
   private ArrayList<Ichannel> ichannels = new ArrayList<>();  // массив точек учета
@@ -51,16 +50,6 @@ public class Ipoint {
       SUBITEM   = "measuringchannel",
       ATTR_1 = "code",
       ATTR_2 = "name";
-
-  public Ipoint()
-  {
-    date = LocalDate.now();
-  }
-
-  public Ipoint(LocalDate dat)
-  {
-    date = dat;
-  }
 
   /**
    * Чтение точки измерения из читателя событий XML, мы стоим на этом тэге
@@ -129,4 +118,5 @@ public class Ipoint {
     }
     return strbuf.toString();
   }
+
 } // end of class
