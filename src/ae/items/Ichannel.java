@@ -202,10 +202,9 @@ public class Ichannel {
    * code,count,h1,h2,...h48
    * @return строка
    */
-  public String toStr(String prefix,String postfix)
+  public String toStr(String prefix, String postfix)
   {
-    StringBuilder strbuf = new StringBuilder();
-    strbuf.append(prefix);  // префикс
+    StringBuilder strbuf = new StringBuilder(prefix); // префикс
     strbuf.append(getCode()).append("', ");
     strbuf.append(getCount());  //кол-во измерений
     int Np = this.periods.length;

@@ -107,11 +107,10 @@ public class Ipoint {
    * code2,count,h1,h2,...h48
    * @return строка
    */
-  public String toStr(String prefix,String postfix)
+  public String toStr(String prefix, String postfix)
   {
     StringBuilder strbuf = new StringBuilder();
     String spref = prefix + "'" + getCode() + "_";
-    int Np = this.ichannels.size();
     for (Ichannel ich: this.ichannels) {
       String s = ich.toStr(spref, postfix);
       strbuf.append(s);
