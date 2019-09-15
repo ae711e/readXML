@@ -103,8 +103,8 @@ public class Ipoint {
 
   /**
    * Выдать измерения точки учета в виде строк для SQL
-   * code1,count,h1,h2,...h48
-   * code2,count,h1,h2,...h48
+   * code1_ch,count,h1,h2,...h48
+   * code2_ch,count,h1,h2,...h48
    * @return строка
    */
   public String toStr(String prefix, String postfix)

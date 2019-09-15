@@ -7,6 +7,8 @@
 /*
   Чтение файла XML с макетом 800200 и запись его в базу Access
 
+  https://hr-vector.com/java/osnovy-java-xml
+
  */
 package ae;
 
