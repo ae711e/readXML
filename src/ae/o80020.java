@@ -25,13 +25,13 @@ import java.util.ArrayList;
 
 public class o80020 {
 
-
+  // тэг с измерениями по точке измерения
   private static final String
-      ITEM      = "measuringpoint";
+      ITEM  = "measuringpoint";
 
   public void start(String fileName, String dbName)
   {
-    ArrayList<Ipoint> ipoints = new ArrayList<>();
+    // ArrayList<Ipoint> ipoints = new ArrayList<>();
     Idate id = new Idate();
     id.readDate(fileName);
     System.out.println("Прочитали дату: " + id.getDate());
@@ -59,7 +59,7 @@ public class o80020 {
           if (startElement.getName().getLocalPart().equals(ITEM)) {
             Ipoint ipoint = new Ipoint();
             ipoint.read(eventReader, startElement);
-            ipoints.add(ipoint);
+            // ipoints.add(ipoint);
             System.out.print("Точка учета: " + ipoint.getCode() + " \"" + ipoint.getName() + "\"");
             String s;
             s = ipoint.toStr(prefix, postfix);

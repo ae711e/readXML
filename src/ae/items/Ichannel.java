@@ -26,9 +26,9 @@ import java.util.Iterator;
 public class Ichannel {
 
   private int       count = 0;  // кол-во записанных получасовок
-  private String    code;   // атрибут "код канала"
-  private String    desc;   // атрибут "описание"
-  private Double[]  periods = new Double[48];  // периоды
+  private String    code;       // атрибут "код канала"
+  private String    desc;       // атрибут "описание"
+  private Double[]  periods;    // периоды
 
   public String getCode() {
     return code;
@@ -46,30 +46,12 @@ public class Ichannel {
     this.desc = desc;
   }
 
-  public Double[] getPeriods() {
-    return periods;
-  }
-
-  public void setPeriods(Double[] periods) {
-    this.periods = periods;
-    this.count = 0;
-  }
-
   /**
-   * Подсчитать кол-во получасовок в канале измерения
+   * Выдать кол-во получасовок в канале измерения
    * @return  кол-во измерений
    */
-  public int getCount()
-  {
-    if(this.count == 0) {
-      int c = 0;
-      for (Double d : periods) {
-        if (d != null)
-          c++;
-      }
-      this.count = c;
-    }
-    return count;
+  public int getCount() {
+    return this.count;
   }
 
   private static final String
@@ -87,6 +69,8 @@ public class Ichannel {
    */
   public void read(XMLEventReader eventReader, StartElement startElementTag)
   {
+    this.count   = 0;   // сбросим кол-во записанных получасовок
+    this.periods = new Double[48];  // создадим массив для получасовок
     try {
       String tagName = startElementTag.getName().getLocalPart(); // measuringchannel
       //
@@ -146,7 +130,7 @@ public class Ichannel {
             setPeriod(pstart, pend, pvalue);
           }
           if (endTag.equals(tagName)) {
-            return;
+            break;
           }
         }
       }
@@ -154,6 +138,13 @@ public class Ichannel {
       System.out.println("?-error-ошибка чтения точки учета: " + e.getMessage());
       // e.printStackTrace();
     }
+    // подсчитать итоговое кол-во получасовок
+    int c = 0;
+    for (Double d : this.periods) {
+      if (d != null)  c++;
+    }
+    this.count = c;
+    //
   }
 
   /**
@@ -162,16 +153,23 @@ public class Ichannel {
    * @param end   конец времени (не включая)
    * @param value значение
    */
-  private void setPeriod(String start, String end, String value) {
-
+  private void setPeriod(String start, String end, String value)
+  {
     int i1 = indexOfTime(start);  // начало
     int i2 = indexOfTime(end);    // конец (не включая)
     if(i2 == 0) i2 = 48;
-    double val = Double.parseDouble(value); // значение
-    for(int i = i1; i < i2; i++) {
-      this.periods[i] = val;
+    // если указано более 1 или несколько периодов, то разобьем
+    // значение value на пропорциональные кусочки
+    if(i2 > i1) {
+      double val = Double.parseDouble(value); // значение
+      double n = i2 - i1;
+      double v1 = val / n;                  // части от деления на n
+      double v0 = val - (v1 * (n - 1.0));   // остаток от общенего и n-1 части
+      for(int i = i1; i < i2; i++) {
+        this.periods[i] = v0;
+        v0 = v1;
+      }
     }
-    this.count = 0;   // сбросим кол-во записанных получасовок, их потом пресчитаем
   }
 
   /**

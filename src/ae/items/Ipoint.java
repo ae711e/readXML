@@ -21,7 +21,6 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -44,7 +43,7 @@ public class Ipoint {
 
   private String  code; // атрибут "код" т.и.
   private String  name; // атрибут имя т.и.
-  private ArrayList<Ichannel> ichannels = new ArrayList<>();  // массив точек учета
+  private ArrayList<Ichannel> ichannels;  // массив точек учета
 
   private static final String
       SUBITEM   = "measuringchannel",
@@ -58,6 +57,8 @@ public class Ipoint {
    */
   public void read(XMLEventReader eventReader, StartElement startElementTag)
   {
+    // создадим массив каналов
+    this.ichannels = new ArrayList<>();
     try {
       String tagName = startElementTag.getName().getLocalPart();
       //
