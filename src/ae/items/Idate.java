@@ -22,10 +22,8 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class Idate {
 
@@ -43,13 +41,6 @@ public class Idate {
     return date.format(formatter);
   }
 
-  public void setDate(LocalDate date) {
-    this.date = date;
-  }
-  public void setDate(String date) {
-    this.date = fromString(date);
-  }
-
   private LocalDate date; // дата Java
 
   private static final String ITEM = "datetime",
@@ -60,7 +51,6 @@ public class Idate {
    */
   public void readDate(String fileName) {
     try {
-      int abc =0;
       // First, create a new XMLInputFactory
       XMLInputFactory inputFactory = XMLInputFactory.newInstance();
       // Setup a new eventReader
@@ -76,16 +66,6 @@ public class Idate {
           if (startElement.getName().getLocalPart().equals(ITEM)) {
             //item = new Item();
             bg = true;  // начали читать тэг <datetime>
-            // We read the attributes from this tag and add the s_date
-            // attribute to our object
-//            Iterator<Attribute> attributes = startElement.getAttributes();
-//            while (attributes.hasNext()) {
-//              Attribute attribute = attributes.next();
-//              if (attribute.getName().toString().equals("daylightsavingtime")) {
-//                //item.setS_date(attribute.getValue());
-//                abc++;
-//              }
-//            }
             continue;
           }
           // прочитать элемент <day> .
@@ -94,8 +74,8 @@ public class Idate {
                 .equals(SUBITEM)) {
               event = eventReader.nextEvent();
               String sd = event.asCharacters().getData();
-              setDate(sd);
-              continue;
+              this.date = fromString(sd);
+              return;
             }
           }
 
